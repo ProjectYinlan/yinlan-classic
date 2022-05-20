@@ -1,0 +1,30 @@
+{
+  "name": "yinlan-classic",
+  "version": "0.1.0",
+  "description": "基于 Mirai (mirai-ts) 服务于 Furry 文化群聊的 QQ Bot。（经典版）",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/colour93/Yinlan-classic"
+  },
+  "keywords": [
+    "mirai",
+    "mirai-ts",
+    "furbot",
+    "furry",
+    "yinlan"
+  ],
+  "author": "colour93",
+  "license": "ISC",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "mirai-ts": "^2.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
