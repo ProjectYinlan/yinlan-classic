@@ -1,0 +1,13 @@
+{
+    "connect": {
+        "qq": 123456789,
+        "yml": "D:\\mirai\\config\\net.mamoe.mirai-api-http\\setting.yml"
+    },
+    "bot":{
+        "name": "洇岚开发版",
+        "admin": [
+            987654321
+        ],
+        "manageGroup": 1101101110
+    }
+}

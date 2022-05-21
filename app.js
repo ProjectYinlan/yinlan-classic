@@ -1,3 +1,7 @@
+/**
+ * 洇岚
+ */
+
 const { Mirai } = require("mirai-ts");
 const config = require('./config.json');
 const fs = require("fs");
@@ -5,28 +9,45 @@ const path = require("path");
 const yaml = require("js-yaml");
 // const { Message } = require("mirai-ts");
 
-const {qq} = config.connect;
+const configCheck = require('./utils/configCheck');
 
-const setting = yaml.load(
-  fs.readFileSync(
-      config.connect.yml || path.resolve("../mcl/config/net.mamoe.mirai-api-http/setting.yml")
-  )
-);
+init();
 
-const mirai = new Mirai(setting);
+/**
+ * 初始化
+ */
+async function init() {
 
-async function app() {
-  // 登录 QQ
-  await mirai.link(qq);
+	// 配置文件检查
+	configCheck.init();
 
-  mirai.on("message", (msg) => {
-  });
+	const { qq } = config.connect;
 
-  mirai.on("GroupRecallEvent", ({ operator }) => {
-  });
+	const setting = yaml.load(
+		fs.readFileSync(
+			config.connect.yml || path.resolve("../mcl/config/net.mamoe.mirai-api-http/setting.yml")
+		)
+	);
 
-  mirai.listen((msg) => {
-  });
+	// 实例化 bot
+	const bot = new Mirai(setting);
+
+	// 登录
+	await bot.link(qq);
+
+	module.exports = bot;
+
+	// 添加事件监听
+	require('./controllers/eventHandler');
+
+	bot.on("message", (msg) => {
+		console.log(msg.get('Plain'));
+	});
+
+	bot.on("GroupRecallEvent", ({ operator }) => {
+	});
+
+
+	bot.listen();
+
 }
-
-app();
