@@ -4,24 +4,26 @@
 
 const { check, message } = require('mirai-ts');
 
+const fs = require('fs');
+
 const config = require('../config.json');
 
 module.exports = {
     /**
      * 命令比对
-     * @param {String} keyword 触发的关键词
+     * @param {String | RegExp} condition 条件
      * @param {message} message message对象
      * @param {Object} options 
      *        { 
-     *          type: , //信息来源
-     *          friend: , //QQ
-     *          group: , //群号
-     *          mode: , //substr或include或regax
+     *          type: , // 信息来源
+     *          friend: , // QQ
+     *          group: , // 群号
+     *          mode: , // substring | include | regax | equal
      *        }
      *        一些其他选项，比如限制群聊/单发，限制源群，限制发送人
      * @return {Boolean} 若命令匹配，返回object {msg, msgAry, quote(如有)}，否则false
      */
-    compareKeyword: (keyword, message, options) => {
+    compareKeyword: (condition, message, options) => {
 
         if (options) {
 
@@ -58,7 +60,38 @@ module.exports = {
 
         let msgAry = msg.split(' ');
 
-        if ( (msgAry[0].substr(0, 1) != '.' ) || (msgAry[0].substr(1) != keyword) ) return false;
+        // 判断模式
+        if (options && options.mode) {
+            
+            // substring | include | regax | equal
+            switch (options.mode) {
+
+                // 第一个元素匹配模式
+                case 'substring':
+                    if ( (msgAry[0].substr(0, 1) != '.' ) || (msgAry[0].substr(1) != condition) ) return false;
+                    break;
+                    
+                // 包含模式
+                case 'include':
+                    if ( !msg.includes(condition) ) return false;
+                    break;
+
+                // 正则模式
+                case 'regax':
+                    if ( !condition.test(msg) ) return false;
+                    break;
+
+                // 完全匹配模式
+                case 'equal':
+                    if ( msg != condition ) return false;
+                    break;
+            }
+
+        } else {
+            if ( (msgAry[0].substr(0, 1) != '.' ) || (msgAry[0].substr(1) != condition) ) return false;
+        }
+
+
 
         return {
             msg,
@@ -107,5 +140,15 @@ module.exports = {
                 resolve()
             }, ms)
         })
+    },
+
+    /**
+     * 读取本地图片转base64
+     * @param {string} file 
+     * @returns 
+     */
+    imgBase64Encode(file) {
+        var bitmap = fs.readFileSync(file);
+        return Buffer.from(bitmap).toString('base64');
     }
 }

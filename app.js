@@ -11,6 +11,7 @@ const yaml = require("js-yaml");
 const configCheck = require('./utils/configCheck');
 
 const manageCtrl = require('./controllers/manage');
+const chitungCtrl = require('./controllers/chitung');
 
 init();
 
@@ -42,7 +43,13 @@ async function init() {
 	require('./controllers/eventHandler');
 
 	bot.on('message', async (message) => {
+
+		// 管理控制器
 		manageCtrl(message);
+
+		// 七筒
+		chitungCtrl(message);
+
 		console.log(message)
 	})
 

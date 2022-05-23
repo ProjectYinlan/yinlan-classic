@@ -23,7 +23,8 @@
   "dependencies": {
     "better-sqlite3": "^7.5.3",
     "js-yaml": "^4.1.0",
-    "mirai-ts": "^2.2.1"
+    "mirai-ts": "^2.2.1",
+    "random-seed": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
