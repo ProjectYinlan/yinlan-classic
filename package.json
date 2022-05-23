@@ -21,6 +21,7 @@
   "author": "colour93",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^7.5.3",
     "js-yaml": "^4.1.0",
     "mirai-ts": "^2.2.1"
   },

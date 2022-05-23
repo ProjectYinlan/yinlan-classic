@@ -7,9 +7,10 @@ const config = require('./config.json');
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-// const { Message } = require("mirai-ts");
 
 const configCheck = require('./utils/configCheck');
+
+const manageCtrl = require('./controllers/manage');
 
 init();
 
@@ -40,13 +41,10 @@ async function init() {
 	// 添加事件监听
 	require('./controllers/eventHandler');
 
-	bot.on("message", (msg) => {
-		console.log(msg.get('Plain'));
-	});
-
-	bot.on("GroupRecallEvent", ({ operator }) => {
-	});
-
+	bot.on('message', async (message) => {
+		manageCtrl(message);
+		console.log(message)
+	})
 
 	bot.listen();
 

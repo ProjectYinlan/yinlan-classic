@@ -10,6 +10,7 @@ const log = new Logger({
     prefix: '[configCheck]'
 });
 
+const TEMPLATE_PATH = path.resolve(__dirname, 'template');
 
 module.exports = {
 
@@ -48,6 +49,7 @@ module.exports = {
             exit();
         }
 
+        let fileList = new Array;
 
         // ===========config/*.json============
 
@@ -57,9 +59,8 @@ module.exports = {
             fs.mkdirSync(path.resolve('config'));
         }
 
-        // 获取 config-template 中的文件
-        let fileList = new Array;
-        fileList = fs.readdirSync(path.resolve(__dirname, 'config-template'));
+        // 获取 template/config 中的文件
+        fileList = fs.readdirSync(path.resolve(TEMPLATE_PATH, 'config'));
         
         // 排除非 json 文件
         for (let i = 0; i < fileList.length; i++) {
@@ -73,13 +74,13 @@ module.exports = {
         // 遍历每个 json 文件，读取对应关系
         for (let i = 0; i < fileList.length; i++) {
             const fileName = fileList[i];
-            const filePath = path.resolve(__dirname, 'config-template/', fileName);
-            const configPath = path.resolve(`config/${fileName}`);
+            const filePath = path.resolve(TEMPLATE_PATH, 'config', fileName);
+            const configPath = path.resolve('config', fileName);
 
             // 判断存在
             if (!fs.existsSync(configPath)) {
                 log.info(`${fileName} 不存在，将初始化`);
-                fs.writeFileSync(configPath, fs.readFileSync(filePath));
+                fs.copyFileSync(configPath, filePath);
                 continue;
             }
 
@@ -100,7 +101,31 @@ module.exports = {
                 }
                 
             }
-            
+        }
+
+        // ===========data/*============
+        // 检查 data 目录是否存在
+        if (!fs.existsSync(path.resolve('data'))) {
+            log.info("data 文件夹不存在，将建立");
+            fs.mkdirSync(path.resolve('data'));
+        }
+
+        // 获取 template/data 中的文件
+        fileList = fs.readdirSync(path.resolve(TEMPLATE_PATH, 'data'));
+
+        // 获取 data 中的文件
+        targetFileList = fs.readdirSync(path.resolve('data'));
+
+        // 判断 template/data 中的某文件 是否存在于 data 中
+        for (let i = 0; i < fileList.length; i++) {
+            const fileItem = fileList[i];
+            if (!targetFileList.includes(fileItem)) {
+                log.info(`data 文件夹中 ${fileItem} 不存在，将初始化`);
+                fs.copyFileSync(
+                    path.resolve(TEMPLATE_PATH, 'data', fileItem),
+                    path.resolve('data', fileItem)
+                );
+            }
         }
 
         log.info("配置文件检查已完毕");
