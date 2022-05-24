@@ -190,6 +190,7 @@ module.exports = (message) => {
     // 消息判断
     const { msg } = utils.compareKeyword('.求签', message, { mode: 'equal' });
     if (!msg) return;
+    if (!utils.functionValid(message, 'chitung.mahjong.fortuneTeller', true)) return;
 
     // 计算随机图路径
     const MAHJONG_PIC_PATH = path.resolve(

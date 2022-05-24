@@ -6,6 +6,8 @@ const { check, message } = require('mirai-ts');
 
 const fs = require('fs');
 
+const db = require('../db');
+
 const config = require('../config.json');
 
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
      *        一些其他选项，比如限制群聊/单发，限制源群，限制发送人
      * @return {Boolean} 若命令匹配，返回object {msg, msgAry, quote(如有)}，否则false
      */
-    compareKeyword: (condition, message, options) => {
+    compareKeyword (condition, message, options) {
 
         if (options) {
 
@@ -100,12 +102,40 @@ module.exports = {
     },
 
     /**
+     * 功能是否启用
+     * @param {message} message message对象
+     * @param {string} functionName 功能名称
+     * @param {Boolean} defaultReturn 默认返回值（默认为 false
+     * @returns {Boolean}
+     */
+    functionValid (message, functionName, defaultReturn) {
+
+        if (message.type != 'GroupMessage') return true;
+
+        if (typeof(defaultReturn) == 'undefined') defaultReturn = false;
+
+        let permissionList = this.string2MultiLayer(functionName);
+
+        console.log(permissionList);
+
+        for (let i = 0; i < permissionList.length; i++) {
+            const permission = permissionList[i];
+            result = db.prepare('select * from functionValid where id = ? and name = ?;').get(message.sender.group.id, permission);
+            console.log(result);
+            if (result) return (result.valid ? true : false);
+        }
+        
+        return defaultReturn;
+
+    },
+
+    /**
      * 权限校验
      * @param {message} message message对象
      * @param {string} type botAdmin, manager, owner
      * @return {Boolean} 
      */
-    verifyPermission: (message, type) => {
+    verifyPermission (message, type) {
         
         switch (type) {
 
@@ -134,7 +164,7 @@ module.exports = {
      * @param {numebr} ms 
      * @returns 
      */
-    wait: (ms) => {
+    async wait (ms) {
         return new Promise((resolve, reject) => {
             setTimeout(function () {
                 resolve()
@@ -147,8 +177,31 @@ module.exports = {
      * @param {string} file 
      * @returns 
      */
-    imgBase64Encode(file) {
+    imgBase64Encode (file) {
         var bitmap = fs.readFileSync(file);
         return Buffer.from(bitmap).toString('base64');
+    },
+
+    /**
+     * 解析层级字符串
+     * @param {string} originString 层级字符串
+     * @returns {array}
+     */
+    string2MultiLayer (originString) {
+        let stringSplit = originString.split('.');
+
+        // 依次生成层级列表
+        let layerList = [];
+        let temp = "";
+        for (let i = 0; i < stringSplit.length; i++) {
+            const stringItem = stringSplit[i];
+            temp += stringItem;
+            layerList.push(temp);
+            if (i != stringSplit.length - 1) {
+                temp += '.';
+            }
+        }
+
+        return layerList;
     }
 }

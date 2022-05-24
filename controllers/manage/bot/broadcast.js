@@ -4,16 +4,16 @@
 
 const { Logger, check } = require('mirai-ts');
 const log = new Logger({
-    prefix: '[boardcast]'
+    prefix: '[broadcast]'
 })
 
-const bot = require('../../app');
-const db = require('../../db');
+const bot = require('../../../app');
+const db = require('../../../db');
 
-const note = require('../../config/event-note.json');
-const { name, admin, manageGroup } = require('../../config.json').bot;
+const note = require('../../../config/event-note.json');
+const { name, admin, manageGroup } = require('../../../config.json').bot;
 
-const utils = require('../../utils');
+const utils = require('../../../utils');
 
 /**
  * 暴露方法
@@ -24,7 +24,7 @@ module.exports = async (message) => {
     if (!utils.verifyPermission(message, 'botAdmin')) return;
 
     // 读取队列
-    r = db.prepare('select * from eventsList where id = ?;').get(message.sender.id);
+    r = db.prepare('select * from eventList where id = ?;').get(message.sender.id);
 
     const now = (new Date()).getTime();
 
@@ -40,7 +40,7 @@ module.exports = async (message) => {
             await message.reply("公告群发已过期", true);
 
             // 数据库删除对应条目
-            const { changes } = db.prepare('delete from eventsList where ts = ?;').run(ts);
+            const { changes } = db.prepare('delete from eventList where ts = ?;').run(ts);
 
             // 判断数据库操作是否成功
             if (changes === 0) await message.reply("数据库操作出现错误", true);
@@ -73,7 +73,7 @@ module.exports = async (message) => {
         await message.reply(text, true);
 
         // 数据库删除对应条目
-        const { changes } = db.prepare('delete from eventsList where ts = ?;').run(ts);
+        const { changes } = db.prepare('delete from eventList where ts = ?;').run(ts);
 
         // 判断数据库操作是否成功
         if (changes === 0) await message.reply("数据库操作出现错误", true);
@@ -82,11 +82,11 @@ module.exports = async (message) => {
     }
 
     // 判断是否为指令
-    const { msg } = utils.compareKeyword('boardcast', message);
+    const { msg } = utils.compareKeyword('broadcast', message);
     if (msg) {
 
         // 数据库增加条目
-        const { changes } = db.prepare('insert into eventsList (id, ts) values (?, ?);').run(message.sender.id, now);
+        const { changes } = db.prepare('insert into eventList (id, ts) values (?, ?);').run(message.sender.id, now);
         if (changes === 0) {
             await message.reply("数据库操作出现错误", true);
             return;

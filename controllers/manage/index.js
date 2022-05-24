@@ -3,5 +3,11 @@
  */
 
 module.exports = (message) => {
-    require('./boardcast')(message);
+
+    // 参数设置
+    require('./group/config')(message);
+
+    // 广播
+    require('./bot/broadcast')(message);
+
 }
