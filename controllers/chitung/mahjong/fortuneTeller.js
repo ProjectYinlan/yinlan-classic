@@ -1,5 +1,6 @@
 /**
  * 求签
+ * chitung.mahjong.fortuneTeller
  * https://github.com/KadokawaR/Chitung-public/blob/main/src/main/kotlin/mirai/chitung/plugin/core/responder/mahjong/FortuneTeller.kt
  */
 const path = require('path');

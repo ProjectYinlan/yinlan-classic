@@ -38,6 +38,8 @@
 
 - [七筒开放版 Chitung-public](https://github.com/KadokawaR/Chitung-public)
 
+- [思源黑体](https://github.com/adobe-fonts/source-han-sans)
+
 - [一言 Hitokoto](https://github.com/hitokoto-osc)
 
 - [清华大学开放中文词库](http://thuocl.thunlp.org/)

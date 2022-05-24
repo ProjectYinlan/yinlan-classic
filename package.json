@@ -24,7 +24,9 @@
     "better-sqlite3": "^7.5.3",
     "js-yaml": "^4.1.0",
     "mirai-ts": "^2.2.1",
-    "random-seed": "^0.3.0"
+    "node-schedule": "^2.1.0",
+    "random-seed": "^0.3.0",
+    "text2image": "^1.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

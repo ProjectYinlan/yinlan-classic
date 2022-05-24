@@ -4,6 +4,8 @@
 
 const { check, message } = require('mirai-ts');
 
+const bot = require('../app');
+
 const fs = require('fs');
 
 const db = require('../db');
@@ -62,6 +64,10 @@ module.exports = {
 
         let msgAry = msg.split(' ');
 
+        if (options && options.lowerCase) {
+            msg = msg.toLowerCase();
+        }
+
         // 判断模式
         if (options && options.mode) {
             
@@ -115,8 +121,6 @@ module.exports = {
         if (typeof(defaultReturn) == 'undefined') defaultReturn = false;
 
         let permissionList = this.string2MultiLayer(functionName);
-
-        console.log(permissionList);
 
         for (let i = 0; i < permissionList.length; i++) {
             const permission = permissionList[i];

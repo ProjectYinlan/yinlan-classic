@@ -5,6 +5,11 @@
  */
 
 module.exports = (message) => {
+
     // 求签
     require('./mahjong/fortuneTeller')(message);
+
+    // lottery
+    require('./lottery')(message);
+    
 }

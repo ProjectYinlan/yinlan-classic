@@ -23,6 +23,9 @@ async function init() {
 	// 配置文件检查
 	configCheck.init();
 
+	// 定时任务注册
+	require('./controllers/schedule');
+
 	const { qq } = config.connect;
 
 	const setting = yaml.load(
@@ -39,6 +42,11 @@ async function init() {
 
 	module.exports = bot;
 
+
+
+	// const utils = require("./utils");
+
+
 	// 添加事件监听
 	require('./controllers/eventHandler');
 
@@ -49,6 +57,10 @@ async function init() {
 
 		// 七筒
 		chitungCtrl(message);
+
+
+		// r = await bot.api.memberList(message.sender.group.id);
+		// console.log(r);
 
 		console.log(message)
 	})
