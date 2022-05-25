@@ -13,15 +13,14 @@ const configCheck = require('./utils/configCheck');
 const manageCtrl = require('./controllers/manage');
 const chitungCtrl = require('./controllers/chitung');
 
+require('./utils/preload');
+
 init();
 
 /**
  * 初始化
  */
 async function init() {
-
-	// 配置文件检查
-	configCheck.init();
 
 	// 定时任务注册
 	require('./controllers/schedule');
