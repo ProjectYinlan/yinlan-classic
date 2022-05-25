@@ -6,7 +6,7 @@
 const utils = require('../../../utils');
 
 const { message, Message } = require('mirai-ts');
-const bot = require('../../../app');
+const { bot } = require('../../../app');
 
 const config = require('../../../config.json');
 

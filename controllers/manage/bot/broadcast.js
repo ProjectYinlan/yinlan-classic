@@ -7,7 +7,7 @@ const log = new Logger({
     prefix: '[broadcast]'
 })
 
-const bot = require('../../../app');
+const { bot } = require('../../../app');
 const db = require('../../../db');
 
 const note = require('../../../config/event-note.json');

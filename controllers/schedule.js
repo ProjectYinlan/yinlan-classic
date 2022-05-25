@@ -29,7 +29,7 @@ const db = require('../db');
  * chitung.lottery.c4
  */
 schedule.scheduleJob('0 6 * * *', () => {
-    const { changes } = db.prepare('update chitung_lotteryC4 set status = ?;').run(0);
+    const { changes } = db.prepare('update chitung_lottery_c4 set status = ?;').run(0);
     log.info(`[chitung.lottery.c4] 已刷新 ${changes} 个 C4 flags`);
 });
 

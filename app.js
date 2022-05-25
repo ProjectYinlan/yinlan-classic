@@ -2,13 +2,11 @@
  * 洇岚
  */
 
-const { Mirai } = require("mirai-ts");
+const { Mirai, Resp } = require("mirai-ts");
 const config = require('./config.json');
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-
-const configCheck = require('./utils/configCheck');
 
 const manageCtrl = require('./controllers/manage');
 const chitungCtrl = require('./controllers/chitung');
@@ -39,7 +37,12 @@ async function init() {
 	// 登录
 	await bot.link(qq);
 
-	module.exports = bot;
+	const responder = new Resp(bot.api);
+
+	module.exports = {
+		bot,
+		responder
+	};
 
 
 
@@ -47,7 +50,7 @@ async function init() {
 
 
 	// 添加事件监听
-	require('./controllers/eventHandler');
+	require('./controllers/manage/event');
 
 	bot.on('message', async (message) => {
 
@@ -59,7 +62,7 @@ async function init() {
 
 
 		// r = await bot.api.memberList(message.sender.group.id);
-		// console.log(r);
+		// console.log(message.get('Quote'));
 
 		console.log(message)
 	})

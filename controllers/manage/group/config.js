@@ -6,6 +6,13 @@ const db = require('../../../db');
 
 const utils = require('../../../utils');
 
+const functionList = [
+    'manage.group.event.memberJoinRequestResend',
+    'chitung.mahjong.fortuneTeller',
+    'chitung.lottery.c4',
+    'chitung.lottery.bummer'
+]
+
 module.exports = async (message) => {
 
     // 消息判断

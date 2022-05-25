@@ -97,9 +97,9 @@
 
     - [ ] *Winner
 
-    - [ ] *Bummer
+    - [x] *Bummer
 
-    - [ ] *C4
+    - [x] *C4
 
     - [ ] !Animal
 

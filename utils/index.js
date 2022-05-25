@@ -4,7 +4,7 @@
 
 const { check, message } = require('mirai-ts');
 
-const bot = require('../app');
+const { bot } = require('../app');
 
 const fs = require('fs');
 

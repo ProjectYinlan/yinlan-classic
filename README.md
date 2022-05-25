@@ -18,7 +18,11 @@
 
 ## 重构计划
 
-[功能列表看这里](docs/ToDo.md)
+[功能列表](docs/ToDo.md)
+
+[配置文件模板](docs/config-template.md)
+
+[命令列表](docs/commands.md)
 
 ## 版权
 

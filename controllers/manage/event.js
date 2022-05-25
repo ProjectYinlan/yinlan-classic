@@ -1,17 +1,20 @@
 /**
  * 事件监听处理
+ * manage.event
  */
 
 const { Logger } = require('mirai-ts');
 const log = new Logger({
-    prefix: '[eventHandler]'
+    prefix: '[event]'
 })
 
-const bot = require('../app');
-const note = require('../config/event-note.json');
-const { name, admin, manageGroup } = require('../config.json').bot;
+const { bot } = require('../../app');
+const note = require('../../config/event-note.json');
+const { name, admin, manageGroup } = require('../../config.json').bot;
 
-const kaomojis = require('../data/kaomoji.json').data;
+const utils = require('../../utils');
+
+const kaomojis = require('../../data/kaomoji.json').data;
 
 /**
  * 上线提醒
@@ -109,6 +112,27 @@ bot.on('NudgeEvent', async (data) => {
     const kaomoji = kaomojis[parseInt(Math.random()*kaomojis.length)];
     msg = msg.replace(/{{randomKaomoji}}/g, kaomoji);
     await reply(msg);
+})
+
+/**
+ * 加群申请转发
+ * manage.group.event.memberJoinRequestResend
+ */
+bot.on('MemberJoinRequestEvent', async (data) => {
+
+    const { fromId, groupId, eventId, message, nick } = data;
+    
+    // 判断启用
+    const active = utils.functionValid(groupId, 'manage.group.event.memberJoinRequestResend', false);
+    if (!active) return;
+
+    const content = 
+        `[入群申请] ${eventId}\n` +
+        `申请人：${nick} (${fromId})\n` +
+        `附言：${message}\n` +
+        `处理方式：群友可回复这条消息【同意】，进行处理`;
+    await bot.api.sendGroupMessage(content, groupId);
+
 })
 
 

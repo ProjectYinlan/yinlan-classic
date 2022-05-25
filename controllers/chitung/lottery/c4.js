@@ -11,7 +11,7 @@ const utils = require('../../../utils');
 const config = require('../../../config.json');
 
 const { message, Message } = require('mirai-ts');
-const bot = require('../../../app');
+const { bot } = require('../../../app');
 
 /**
  * c4
@@ -39,7 +39,7 @@ module.exports = async (message) => {
     }
 
     // 获取今天是否已经触发
-    let result = db.prepare('select * from chitung_lotteryC4 where id = ?;').get(message.sender.group.id);
+    let result = db.prepare('select * from chitung_lottery_c4 where id = ?;').get(message.sender.group.id);
     if (result && result.status == 1) {
         message.reply("今日的C4已经被触发过啦！请明天再来尝试作死！");
         return;
@@ -63,9 +63,9 @@ module.exports = async (message) => {
         // 判断数据库条目是否存在
         let changes;
         if (!result) {
-            changes = db.prepare('insert into chitung_lotteryC4 (id, status) values (?, ?);').run(message.sender.group.id, 1).changes;
+            changes = db.prepare('insert into chitung_lottery_c4 (id, status) values (?, ?);').run(message.sender.group.id, 1).changes;
         } else {
-            db.prepare('update chitung_lotteryC4 set status = ? where id = ?;').run(1, message.sender.group.id);
+            db.prepare('update chitung_lottery_c4 set status = ? where id = ?;').run(1, message.sender.group.id);
         }
         if (changes == 0) {
             message.reply("数据库操作出错");
