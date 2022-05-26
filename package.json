@@ -21,10 +21,14 @@
   "author": "colour93",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "better-sqlite3": "^7.5.3",
+    "bili-api": "^1.8.1",
     "js-yaml": "^4.1.0",
     "mirai-ts": "^2.2.1",
     "node-schedule": "^2.1.0",
+    "qrcode": "^1.5.0",
+    "qs": "^6.10.3",
     "random-seed": "^0.3.0",
     "text2image": "^1.2.1"
   },

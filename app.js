@@ -10,6 +10,7 @@ const yaml = require("js-yaml");
 
 const manageCtrl = require('./controllers/manage');
 const chitungCtrl = require('./controllers/chitung');
+const yinlanCtrl = require('./controllers/yinlan');
 
 require('./utils/preload');
 
@@ -59,6 +60,9 @@ async function init() {
 
 		// 七筒
 		chitungCtrl(message);
+
+		// 洇岚
+		yinlanCtrl(message);
 
 
 		// r = await bot.api.memberList(message.sender.group.id);
