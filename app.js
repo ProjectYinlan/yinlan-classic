@@ -68,7 +68,7 @@ async function init() {
 		// r = await bot.api.memberList(message.sender.group.id);
 		// console.log(message.get('Quote'));
 
-		console.log(message)
+		// console.log(message)
 	})
 
 	bot.listen();

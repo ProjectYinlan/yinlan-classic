@@ -17,7 +17,7 @@ module.exports = async (message) => {
     
     result = db.prepare('select cookie from yinlan_bilitools_account where flag = 1;').get();
 
-    if (!result || result.cookie) {
+    if (!result || !result.cookie) {
         if (message) message.reply(`Bot尚未绑定B站账户，请通知Bot管理员使用“.bilitools bind”进行绑定`);
         return false;
     }

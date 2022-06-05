@@ -179,11 +179,11 @@ async function getLoginInfo (message) {
  */
 async function getAccountInfo() {
 
-    result = getAccount();
+    result = await getAccount();
 
     if (!result || result.cookie) return "未绑定账号，请使用 “.bilitools bind” 进行绑定";
     
-    result = await getAccountInfoByCookie(result.cookie);
+    result = await getAccountInfoByCookie(result);
 
     if (!result) return "登陆失败";
 
@@ -196,6 +196,7 @@ async function getAccountInfo() {
  * 通过cookie获取信息
  */
 async function getAccountInfoByCookie(cookie) {
+
 
     resp = await axios({
         method: 'get',
